@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ch" xmlns:th="http : / / www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>图书列表</title>
+    <style type="text/css">
+
+        table {
+            border-collapse: collapse;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        table td,
+        table th {
+            border: 1px solid #cad9ea;
+            color: #666;
+            height: 30px;
+        }
+
+        table thead th {
+            background-color: #CCE8EB;
+            width: 100px;
+        }
+
+        table tr:nth-child(odd) {
+            background: #fff;
+        }
+
+        table tr:nth-child(even) {
+            background: #F5FAFA;
+        }
+    </style>
+</head>
+
+<body>
+<table>
+    <caption><h2>图书列表</h2> </caption>
+    <tr>
+        <th> 流水号 </th>
+        <th> 图书标题</th>
+        <th> 图书作者 </th>
+        <th> 图书单价 </th>
+        <th> 图书销量 </th>
+        <th> 图书库存</th>
+        <th> 图书封面路径 </th>
+        <th> 操作 </th>
+    </tr>
+
+<tr th:each="books,status : ${list.list}">
+    <td th:text="${status.count}"></td>
+    <td th:text="${books.title}"></td>
+    <td th:text="${books.author}"></td>
+    <td th:text="${books.price}"></td>
+    <td th:text="${books.sales}"></td>
+    <td th:text="${books.stock}"></td>
+    <td>
+        <img th:src="@{${books.imgPath}}" style="width: 75px; height: 75px" >
+    </td>
+
+    <td>
+        <a href="#" >修改</a>
+        <a href="#" >增加</a>
+    </td>
+</tr>
+</table>
+<div style="text-align: center">
+        <a th:if="${list.hasPreviousPage}" th:href="@{/Book/page/1}">首页</a>
+        <a th:if="${list.hasPreviousPage}" th:href="@{'/Book/page/'+${list.prePage}}">上一页</a>
+    <span th:each="num : ${list.navigatepageNums}">
+         <a th:if="${list.pageNum != num}" th:href="@{'/Book/page/'+${num}}" th:text="${num}"></a>
+         <a th:if="${list.pageNum == num}" style="color: red;" th:href="@{'/Book/page/'+${num}}" th:text="'['+${num}+']'"></a>
+    </span>
+        <a th:if="${list.hasNextPage}" th:href="@{'/Book/page/'+${list.nextPage}}">下一页</a>
+        <a th:if="${list.hasNextPage}" th:href="@{'/Book/page/'+${list.pages}}">末页</a>
+</div>
+</body>
+</html>
